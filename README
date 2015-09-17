@@ -1,0 +1,21 @@
+BlackFly is a custom Blog API written in Django on top of Posgresql.
+
+### Install Python2.7, virtualenv, pip
+
+### git clone [THIS REPO]
+
+### Create and activate virtualenv
+```$ virtualenv venv && source venv/bin/activate```
+
+### Install dependencies
+```$ pip install -r requirements.txt```
+
+### Create Postgres database
+
+### Run migrate
+```$ python manage.py migrate```
+
+### Run development server
+```$ python manage.py runserver```
+
+Copyright - Tasneem Haider
