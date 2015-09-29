@@ -1,0 +1,28 @@
+{% extends "posts/base.html" %}
+
+{% block content %}
+
+<h1>{{ post.title }}</h1>
+<a href="{% url "post-modify" pk=post.id %}">Edit</a>
+<a href="{% url "post-delete" pk=post.id %}">Delete</a>
+
+<p>{{ post.body }}</p>
+
+<h2>Comments</h2>
+<ul>
+	{% for comment in object_list %}
+	<li class="postcomment">{{ postcomment }}</li>
+	{% endfor %}
+</ul>
+
+<h1>Add Comment</h1>
+<form action="{% url "postComment" pk=post.id %}" method="POST">
+{% csrf_token %}
+<div class="ui form">
+		<div class="field">
+			<textarea name="body"></textarea>
+		</div>
+		<div class="field">
+<input id="save_comment" type="submit" value="Post Comment" />
+</form>
+{% endblock %}

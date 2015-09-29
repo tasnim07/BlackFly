@@ -13,9 +13,20 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
+from django.conf.urls import include, url, patterns
+import posts.views
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-urlpatterns = [
+urlpatterns = patterns(" ", 
     url(r'^admin/', include(admin.site.urls)),
-]
+    url(r'^blog/$', posts.views.ListPostView.as_view(), name="post-list"),
+    url(r'^blog/(?P<pk>\d+)/$', posts.views.PostView.as_view(), name="post-detail"),
+    url(r'^blog/new/$', posts.views.CreatePostView.as_view(), name="post-new"),
+    url(r'^blog/(?P<pk>\d+)/modify/$', posts.views.UpdatePostView.as_view(), name="post-modify"),
+    url(r'^blog/(?P<pk>\d+)/delete/$', posts.views.DeletePostView.as_view(), name="post-delete"),
+    url(r'^blog/(?P<pk>\d+)/comments/$', posts.views.CreateCommentView.as_view(), name="postComment"),
+)
+
+
+urlpatterns += staticfiles_urlpatterns()
