@@ -1,13 +1,13 @@
-{% extends "base.html" %}
-{% block content %}
+<h2>Post a Comment</h2>
 
-<form action="{% action %}" method="POST">
+<form action="{% url 'postComment' post.id %}?next={% url 'post-detail' post.id %}" method="POST">
 {% csrf_token %}
-<ul>
-	{{ form.as_ul }}
-</ul>
-
+<div class="ul_form">
+	<div class="field">
+		<textarea name="body"></textarea>
+	</div>
+	<div class="field">
+</div>
 <input type="submit" value="Submit" />
 </form>
 
-{% endblock %}

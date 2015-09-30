@@ -1,0 +1,13 @@
+{{ comment.body }}
+<a href="", class"replyToggle">Reply</a>
+{% include 'posts/comment_modify.html' %}
+<a href="" class="editToggle">Edit</a>
+<a href="{% url 'deleteComment' comment.id %}?next={% url 'post-detail' post.id %}">Delete</a>
+{% include 'posts/reply.html' %}
+<ul>
+{% for reply in comment.replies.all %}
+	<li>
+		{% include 'posts/show_comment.html' with comment=reply.reply %}
+	</li>
+{% endfor %}
+</ul>

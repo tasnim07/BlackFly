@@ -25,7 +25,10 @@ urlpatterns = patterns(" ",
     url(r'^blog/new/$', posts.views.CreatePostView.as_view(), name="post-new"),
     url(r'^blog/(?P<pk>\d+)/modify/$', posts.views.UpdatePostView.as_view(), name="post-modify"),
     url(r'^blog/(?P<pk>\d+)/delete/$', posts.views.DeletePostView.as_view(), name="post-delete"),
-    url(r'^blog/(?P<pk>\d+)/comments/$', posts.views.CreateCommentView.as_view(), name="postComment"),
+    url(r'^blog/(?P<post_id>[0-9]+)/comments/$', posts.views.addComment, name="postComment"),
+    url(r'^comments(?P<comment_id>[0-9]+)/reply/$', posts.views.addComment, name="reply"),
+    url(r'^comments(?P<comment_id>[0-9]+)/modifycomment/$', posts.views.modifyComment, name="modifyComment"),
+    url(r'^comments(?P<comment_id>[0-9]+)/deletecomment/$', posts.views.deleteComment, name="deleteComment"),
 )
 
 

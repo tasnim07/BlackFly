@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 class Post(models.Model):
-	#author = models.ForeignKey(User)
+	author = models.ForeignKey(User)
 	title = models.CharField(max_length=100)
 	body = models.TextField()
 	pub_date = models.DateTimeField('date published', auto_now_add=True)
@@ -23,7 +23,7 @@ class Comment(models.Model):
 	modified_date = models.DateTimeField('date modified', auto_now=True)
 
 	def __str__(self):
-		return ''.join(self.body.split()[:4]) + '...'
+		return self.body
 
 class PostComment(models.Model):
 	post = models.ForeignKey(Post)

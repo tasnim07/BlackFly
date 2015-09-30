@@ -4,6 +4,7 @@
 
 <h1>Recent Posts</h1>
 
+{% if latest_blog_posts %}
 <ul>
 	{% for post in object_list %}
 		<li class="post">
@@ -12,5 +13,8 @@
 		</li>
 	{% endfor %}
 </ul>
+{% else %}
+<p>No posts yet</p>
+{% endif %}
 
 {% endblock %}

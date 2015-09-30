@@ -1,5 +1,5 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import Http404
 # Create your views here.
 from django.views import generic
 from django.core.urlresolvers import reverse
@@ -9,7 +9,10 @@ class ListPostView(generic.ListView):
 
 	model = Post
 	template_name = 'posts/post_list.html'
-	fields = ('__all__')
+	context_object_name = 'latest_blog_posts'
+
+	def get_queryset(self):
+		return Post.objects.order_by('-pub_date')
 
 class CreatePostView(generic.CreateView):
 
@@ -47,17 +50,43 @@ class DeletePostView(generic.DeleteView):
 	def get_success_url(self):
 		return reverse('post-list')
 
-class CommentListView(generic.ListView):
-
-	model = PostComment 
-	template_name = 'posts/post.html'
-
-class CreateCommentView(generic.CreateView):
-
-	model = Comment
-	template_name = 'posts/post.html'
-	fields = ('__all__')
+def addComment(request, post_id=None, comment_id=None):
 	
-	def get_success_url(self):
+	next = getNextUrl(request)
+	
+	if (request.method != 'POST'):
+		raise Http404();
+
+	new_comment = Comment.objects.create(body=request.POST['body'])
+	
+	if (post_id):
+		# add comment to post
+		post = get_object_or_404(Post, pk=post_id)
+		PostComment.objects.create(post=post, comment=new_comment)
+
+	elif (comment_id):
+		# add reply to comment
+		comment = get_object_or_404(Comment, pk=comment_id)
+		Reply.objects.create(comment=comment, reply=new_comment)
+	return redirect(next)
+
+def modifyComment(request, comment_id):
+	next = getNextUrl(request)
+	comment = get_object_or_404(Comment, pk=comment_id)
+	comment.body = request.POST['body']
+	comment.save()
+	return redirect(next)
+
+def deleteComment(request, comment_id):
+	next = getNextUrl(request)
+	comment = get_object_or_404(Comment, pk=comment_id)
+	comment.delete()
+	return redirect(next)
+
+def getNextUrl(request):
+	''' Gets the url specified by 'next' GET parameter; uses default otherwise '''
+	try:
+		next = request.GET['next']
+	except KeyError:
 		return reverse('post-list')
-		
+	return next;

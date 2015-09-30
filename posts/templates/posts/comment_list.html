@@ -1,0 +1,12 @@
+<h3>Comments</h3>
+
+<ul>
+{% for comment in post.postcomment_set.all %}
+		<li>
+				{% include 'posts/show_comment.html' with comment=comment.comment %}
+		</li>	
+{% empty %}
+		<li>No Comments</li>
+{% endfor %}
+</ul>
+
