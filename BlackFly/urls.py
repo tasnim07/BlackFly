@@ -18,8 +18,20 @@ import posts.views
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+
+from django.core.urlresolvers import reverse
+from django.views.generic.edit import CreateView
+from django.views.generic.base import RedirectView
+
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.forms import UserCreationForm
+
+
 urlpatterns = patterns(" ", 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^login/$', auth_views.login, {'template_name': 'posts/login.html'}, name="login"),
+    url(r'^login/$', auth_views.logout,{'template_name': 'posts/logged_out.html'}, name="logout"),
+    url(r'^register/$', posts.views.register, name="register"),
     url(r'^blog/$', posts.views.ListPostView.as_view(), name="post-list"),
     url(r'^blog/(?P<pk>\d+)/$', posts.views.PostView.as_view(), name="post-detail"),
     url(r'^blog/new/$', posts.views.CreatePostView.as_view(), name="post-new"),

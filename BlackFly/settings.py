@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'posts',
-    'accounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,3 +102,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = '/blog/'
+LOGIN_URL = 'django.contrib.auth.views.login'

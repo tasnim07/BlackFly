@@ -9,7 +9,7 @@
 	{% for post in object_list %}
 		<li class="post">
 		<a href="{{ post.get_absolute_url }}">{{ post }}</a><br>
-		on {{ post.modified_date }}</br
+		By {{ post.author }} on {{ post.modified_date }}</br
 		</li>
 	{% endfor %}
 </ul>

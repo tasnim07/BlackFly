@@ -4,6 +4,10 @@ from django.http import Http404
 from django.views import generic
 from django.core.urlresolvers import reverse
 from .models import Post, Comment, PostComment, Reply
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
 
 class ListPostView(generic.ListView):
 
@@ -24,7 +28,7 @@ class CreatePostView(generic.CreateView):
 		return reverse('post-list')
 
 	def form_valid(self, form):
-		form.instance.owner = self.request.user
+		form.instance.author = self.request.user
 		return super(CreatePostView, self).form_valid(form)
 
 class PostView(generic.DetailView):
@@ -90,3 +94,15 @@ def getNextUrl(request):
 	except KeyError:
 		return reverse('post-list')
 	return next;
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            return HttpResponseRedirect("/login/")
+    else:
+        form = UserCreationForm()
+    return render(request, "posts/register.html", {
+        'form': form,
+    })
