@@ -8,6 +8,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 class ListPostView(generic.ListView):
 
@@ -22,7 +23,7 @@ class CreatePostView(generic.CreateView):
 
 	model = Post
 	template_name = 'posts/new_post.html'
-	fields = ('__all__')
+	fields = ('title', 'body')
 
 	def get_success_url(self):
 		return reverse('post-list')
@@ -41,7 +42,7 @@ class UpdatePostView(generic.UpdateView):
 
 	model = Post
 	template_name = 'posts/post_modify.html'
-	fields = ('__all__')
+	fields = ('title', 'body')
 
 	def get_absolute_url(self):
 		return reverse('posts/post-detail', kwargs={'pk': self.pk})
@@ -54,6 +55,7 @@ class DeletePostView(generic.DeleteView):
 	def get_success_url(self):
 		return reverse('post-list')
 
+@login_required
 def addComment(request, post_id=None, comment_id=None):
 	
 	next = getNextUrl(request)
@@ -61,7 +63,7 @@ def addComment(request, post_id=None, comment_id=None):
 	if (request.method != 'POST'):
 		raise Http404();
 
-	new_comment = Comment.objects.create(body=request.POST['body'])
+	new_comment = Comment.objects.create(author=request.user, body=request.POST['body'])
 	
 	if (post_id):
 		# add comment to post
@@ -74,18 +76,26 @@ def addComment(request, post_id=None, comment_id=None):
 		Reply.objects.create(comment=comment, reply=new_comment)
 	return redirect(next)
 
+@login_required
 def modifyComment(request, comment_id):
 	next = getNextUrl(request)
 	comment = get_object_or_404(Comment, pk=comment_id)
+	checkAuthor(request, comment)
 	comment.body = request.POST['body']
 	comment.save()
 	return redirect(next)
 
+@login_required
 def deleteComment(request, comment_id):
 	next = getNextUrl(request)
 	comment = get_object_or_404(Comment, pk=comment_id)
+	checkAuthor(request, comment)
 	comment.delete()
 	return redirect(next)
+
+def checkAuthor(request, obj):
+	if(request.user.id != obj.author.id):
+		raise Http404('You are not authorized to perform this act')
 
 def getNextUrl(request):
 	''' Gets the url specified by 'next' GET parameter; uses default otherwise '''

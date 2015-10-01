@@ -7,18 +7,17 @@
   	</head>
 
   <body>
-
+<div>
+	{{ user }}
+	{% if user.is_anonymous %}
+	<a href="{% url "login" %}">Login</a>
+	{% else %}
+	{% include 'posts/sidebar.html' %}
+	{% endif %}
+</div>
 <div class="ui grid">
 	<div class="three wide column">
-			{% include 'posts/sidebar.html' %}
-		<div>
-			{{ user }}
-			{% if user.is_anonymous %}
-			<a href="{% url 'login' %}">Login</a>
-			{% else %}
-			<a href="{% url 'logout' %}">Logout</a>
-			{% endif %}
-		</div>	
+			
 	</div>
 	<div id="main-content" class="nine wide column">
 

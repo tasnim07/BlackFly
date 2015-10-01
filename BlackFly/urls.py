@@ -25,18 +25,18 @@ from django.views.generic.base import RedirectView
 
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = patterns(" ", 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', auth_views.login, {'template_name': 'posts/login.html'}, name="login"),
-    url(r'^login/$', auth_views.logout,{'template_name': 'posts/logged_out.html'}, name="logout"),
+    url(r'^logout/$', auth_views.logout, {'template_name': 'posts/logged_out.html'}, name="logout"),
     url(r'^register/$', posts.views.register, name="register"),
-    url(r'^blog/$', posts.views.ListPostView.as_view(), name="post-list"),
-    url(r'^blog/(?P<pk>\d+)/$', posts.views.PostView.as_view(), name="post-detail"),
-    url(r'^blog/new/$', posts.views.CreatePostView.as_view(), name="post-new"),
-    url(r'^blog/(?P<pk>\d+)/modify/$', posts.views.UpdatePostView.as_view(), name="post-modify"),
-    url(r'^blog/(?P<pk>\d+)/delete/$', posts.views.DeletePostView.as_view(), name="post-delete"),
+    url(r'^blog/$', login_required(posts.views.ListPostView.as_view()), name="post-list"),
+    url(r'^blog/(?P<pk>\d+)/$', login_required(posts.views.PostView.as_view()), name="post-detail"),
+    url(r'^blog/new/$', login_required(posts.views.CreatePostView.as_view()), name="post-new"),
+    url(r'^blog/(?P<pk>\d+)/modify/$', login_required(posts.views.UpdatePostView.as_view()), name="post-modify"),
+    url(r'^blog/(?P<pk>\d+)/delete/$', login_required(posts.views.DeletePostView.as_view()), name="post-delete"),
     url(r'^blog/(?P<post_id>[0-9]+)/comments/$', posts.views.addComment, name="postComment"),
     url(r'^comments(?P<comment_id>[0-9]+)/reply/$', posts.views.addComment, name="reply"),
     url(r'^comments(?P<comment_id>[0-9]+)/modifycomment/$', posts.views.modifyComment, name="modifyComment"),
