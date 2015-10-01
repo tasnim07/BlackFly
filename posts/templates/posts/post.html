@@ -3,9 +3,10 @@
 {% block content %}
 
 <h1>{{ post.title }}</h1>
+{% if user.id == post.author.id %}
 <a href="{% url "post-modify" pk=post.id %}">Edit</a>
 <a href="{% url "post-delete" pk=post.id %}">Delete</a>
-
+{% endif %}
 <p>{{ post.body }}</p>
 {% include 'posts/comment_list.html' %}
 

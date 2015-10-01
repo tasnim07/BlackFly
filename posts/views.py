@@ -9,6 +9,27 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
+
+class PostOwnerMixin(object):
+
+	def get_object(self, queryset=None):
+		""" Returns the object the view is displaying.
+		"""
+		if queryset is None:
+			queryset = self.get_queryset()
+
+		pk = self.kwargs.get(self.pk_url_kwarg, None)
+		queryset = queryset.filter(pk=pk, author=self.request.user,)
+
+		try:
+			obj = queryset.get()
+		except ObjectDoesNotExist:
+			raise PermissionDenied
+
+		return obj
 
 class ListPostView(generic.ListView):
 
@@ -38,7 +59,7 @@ class PostView(generic.DetailView):
 	template_name = 'posts/post.html'
 	fields = ('__all__')
 
-class UpdatePostView(generic.UpdateView):
+class UpdatePostView(PostOwnerMixin, generic.UpdateView):
 
 	model = Post
 	template_name = 'posts/post_modify.html'
@@ -47,7 +68,7 @@ class UpdatePostView(generic.UpdateView):
 	def get_absolute_url(self):
 		return reverse('posts/post-detail', kwargs={'pk': self.pk})
 
-class DeletePostView(generic.DeleteView):
+class DeletePostView(PostOwnerMixin, generic.DeleteView):
 
 	model = Post
 	template_name = 'posts/delete_post.html'

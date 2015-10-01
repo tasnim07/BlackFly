@@ -1,8 +1,12 @@
-{{ comment.body }}
+{{ comment.body }} - {{ comment.author }}
 <a href="", class"replyToggle">Reply</a>
+
+{% if user.id == comment.author.id %}
+
 {% include 'posts/comment_modify.html' %}
 <a href="" class="editToggle">Edit</a>
 <a href="{% url 'deleteComment' comment.id %}?next={% url 'post-detail' post.id %}">Delete</a>
+{% endif %}
 {% include 'posts/reply.html' %}
 <ul>
 {% for reply in comment.replies.all %}
