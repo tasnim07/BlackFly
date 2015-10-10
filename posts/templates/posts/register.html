@@ -1,15 +1,31 @@
-{% extends "posts/base.html" %}
+<!Doctype html>
+{% load staticfiles %}
 
-{% block title %}Create an account{% endblock %}
-
-{% block content %}
-  <h1>Create an account</h1>
+<html>
+	<head>
+		<title>Sign Up</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'posts/login/body.css' %}">
+	</head>
+<body class="body">
+  <h1 id="header">Create New Account</h1>
 
 <form action="" 
   	method="POST">{% csrf_token %}
   	  
-      {{ form.as_p }}
+    <table>
+    	<tr>
+    		<td><input class="username" type="text" name="username" placeholder="Username" required></td>
+    	</tr>
+    	<tr>
+    		<td><input class="username" type="password" name="password1" placeholder="Password" required></td>
+    		<td><input type="hidden" name="next" value="" /></td>
+    	</tr>
+    	<tr>
+    		<td><input class="username" type="password" name="password2" placeholder="Cofirm Password" required>
+			<input type="hidden" name="next" value="" /></td>
+    	</tr>
+	</table>
 
-      <input type="submit" value="Create the account">
-  </form>
-{% endblock %}
+    <input class="submit_button" type="submit" value="Sign Up">
+</form>
+

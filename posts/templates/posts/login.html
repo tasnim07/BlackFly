@@ -1,28 +1,31 @@
-{% extends "posts/base.html" %}
-{% block content %}
-<center><h2>Welcome to BlackFly Blogging App</h2></center> 
-<center><p><h4>Please Login here to start BLOGGING. :-)</h4></p></center>
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+	<head><title>login page</title>
+		<link type="text/css" rel="stylesheet" href="{% static 'posts/login/body.css' %}" />
+	</head>
+<body class="body">
+	<h1 id="header">Welcome to BlackFly Blogging App</h1>
+	<p><h4>Please Login here to start BLOGGING. :-)</h4></p>
+	{% if form.errors %}
+	<p>Your username and password didn't match. Please try again.</p>
+	{% endif %}
 
-<form method="POST" action="{% url "login" %}">
-{% csrf_token %}
-<center><table>
-<tr>
-	<td>{{ form.username.label_tag }}</td>
-	<td>{{ form.username }}</td>
-</tr>
-<tr>
-	<td>{{ form.password.label_tag }}</td>
-	<td>{{ form.password }}</td>
-</tr>
-</table>
-<p>
-<p><input type="submit" value="Login" /></p>
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
-</p>
-<p><a href="{% url "register" %}">New to us? Register here</a></p>
-{% endblock %}
-</center>
+	<form method="POST" action="{% url "login" %}">
+	{% csrf_token %}
+	<table class="table">
+	<tr>
+		<td><input class="username" type="text" name="username" placeholder="Username" ></td>
+	</tr>
+	<tr>
+		<td><input class="username" type="password" name="password" placeholder="Password"></td>
+	</tr>
+	</table>
+	<p><input type="submit" value="Login" class="submit_button"/></p>
+	<input type="hidden" name="next" value="{{ next }}" />
+	</form>
+	</p>
+	<div><a href="{% url "register" %}">New to us? <br><span>Register here</span></a></div>
+
+</body>
+</html>
