@@ -1,13 +1,13 @@
 <h2>Post a Comment</h2>
 
-<form action="{% url 'postComment' post.id %}?next={% url 'post-detail' post.id %}" method="POST">
+<form role="form" action="{% url 'postComment' post.id %}?next={% url 'post-detail' post.id %}" method="POST">
 {% csrf_token %}
 <div class="ul_form">
-	<div class="field">
-		<textarea name="body"></textarea>
+	<div class="form-group">
+		<textarea name="body" class="form-control" rows="5" ></textarea>
 	</div>
-	<div class="field">
+	
 </div>
-<input type="submit" value="Submit" />
+<button type="submit" class="btn btn-primary">Submit</button>
 </form>
 

@@ -2,12 +2,19 @@
 
 {% block content %}
 
-<form action="{{ action }}" method="POST">
+<form role="form" action="{{ action }}"  method="POST">
 {% csrf_token %}
-<ul>
-	{{ form.as_ul }}
-</ul>
-<input id="save_post" type="submit" value="Submit" />
+<div class="ul_form">
+	<div class="form-group">
+		<label for="name">Title</label>
+		<input id="title" type="text" name="title" class="form-control">
+	</div>
+	<div class="form-group">
+		<label for="name">Content</label>
+		<textarea id="body" name="body" class="form-control" rows="10"></textarea>
+	</div>
+<button id="save_post" type="submit" class="btn btn-primary btn-lg">Post</button>
+</div>
 </form>
 
 {% endblock %}

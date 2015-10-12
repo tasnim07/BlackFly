@@ -1,13 +1,13 @@
-<form class="replyForm" action="{% url 'reply' comment.id %}?next={% url 'post-detail' post.id %}" method="POST">
+<form role="form" class="replyForm" action="{% url 'reply' comment.id %}?next={% url 'post-detail' post.id %}" method="POST">
 {% csrf_token %}
 
 <div class="ui form">
-	<div class="field">
+	<div class="form-group">
 		<label>Reply</label>
-		<textarea name="body"></textarea>
+		<textarea name="body" class="form-control" rows="3"></textarea>
 	</div>
 	<div class="field">
-		<input type="submit", value="Post Reply">
+		<button type="submit", class="btn btn-primary">Post Reply</button>
 	</div>
 </div>
 </form>

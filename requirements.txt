@@ -7,6 +7,7 @@ gnureadline==6.3.3
 ipython==4.0.0
 ipython-genutils==0.1.0
 Markdown==2.6.2
+newrelic==2.56.0.42
 path.py==8.1.1
 pexpect==3.3
 pickleshare==0.5

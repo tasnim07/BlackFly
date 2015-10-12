@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html>
-	<head>
-		<link href="{% static 'posts/bootstrap-3.3.5-dist/css/bootstrap.min.css' %}"
-  		rel="stylesheet" media="screen">
-  	</head>
-
-  <body>
-<div>
-	{{ user }}
-	{% if user.is_anonymous %}
-	<a href="{% url "login" %}">Login</a>
-	{% else %}
-	{% include 'posts/sidebar.html' %}
-	{% endif %}
-</div>
-<div class="ui grid">
-	<div class="three wide column">
-			
+<head>
+	<link href="{% static 'posts/bootstrap-3.3.5-dist/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+   	<script src="/scripts/jquery.min.js"></script>
+   	<script src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div>
+		{{ user }}
+		{% if user.is_anonymous %}
+		<a href="{% url "login" %}">Login</a>
+		{% else %}
+		{% include 'posts/sidebar.html' %}
+		{% endif %}
 	</div>
-	<div id="main-content" class="nine wide column">
+	<div class="ui grid">
+		<div class="three wide column"></div>
+	<div id="main-content" class="nine wide column"></div>
 
-    {% block content %}
+{% block content %}
     
-    {% endblock %}
+{% endblock %}
 	</div>
-    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-  </body>
+</body>
 </html>

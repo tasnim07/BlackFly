@@ -1,13 +1,10 @@
-<form class="editForm" action="{% url 'modifyComment' comment.id %}?next={% url 'post-detail' post.id %}" method="POST">
+<form role="form" class="editForm" action="{% url 'modifyComment' comment.id %}?next={% url 'post-detail' post.id %}" method="POST">
 {% csrf_token %}
 
 <div class="ui form">
-	<div class="field">
-		<label>Reply</label>
-		<textarea name="body"></textarea>
-	</div>
-	<div class="field">
-		<input id="save_post" type="submit" value="Edit">
-	</div>
+	<p><div class="form-group">
+		<textarea name="body" class="form-control" rows="3">{{ comment.body }}</textarea>
+	</div></p>
+	<button type="submit" class="btn btn-primary">Edit</button>
 </div>
 </form>
